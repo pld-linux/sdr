@@ -2,22 +2,25 @@ Summary:	Session Directory Tool
 Name:		sdr
 Version:	3.0
 Release:	1
-Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
+Group:		X11/Applications/Multimedia
+Group(de):	X11/Applikationen/Multimedia
+Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://www-mice.cs.ucl.ac.uk/multimedia/software/%{name}/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}-COPYRIGHT
+Source2:	%{name}.desktop
+Source3:	%{name}.xpm
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-tcl_eval.patch
 Patch2:		%{name}-FHS.patch
+Icon:		%{name}.xpm
 URL:		http://www-mice.cs.ucl.ac.uk/multimedia/software/
 License:	Custom
 BuildRequires:	ucl-common-devel
 BuildRequires:	tcl-devel >= 8.3
 BuildRequires:	tk-devel >= 8.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_prefix	/usr/X11R6
 
 %description
 SDR is a session directory tool designed to allow the advertisement
@@ -40,10 +43,11 @@ sh ./configure --enable-ipv6
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/sdr/plugins/built-in}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/sdr/plugins,%{_applnkdir}/Multimedia,%{_pixmapsdir}}
 install linux/sdr $RPM_BUILD_ROOT%{_bindir}
-install src/plugins/* $RPM_BUILD_ROOT%{_datadir}/sdr/plugins/built-in
 install %{SOURCE1} COPYRIGHT
+install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
+install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 gzip -9nf src/{sdr.README,BUGS,CHANGES} COPYRIGHT
 
@@ -52,6 +56,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc src/sdr.README* src/BUGS* src/CHANGES* COPYRIGHT
+%doc src/sdr.README* src/BUGS* src/CHANGES* COPYRIGHT* src/plugins
 %attr(755,root,root) %{_bindir}/*
-%{_datadir}/sdr
+%{_applnkdir}/Multimedia/*
+%{_pixmapsdir}/*
+/etc/sdr
