@@ -5,3 +5,4 @@ Exec=sdr
 Terminal=0
 Type=Application
 Icon=sdr.xpm
+# vi: encoding=utf-8
