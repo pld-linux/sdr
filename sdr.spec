@@ -1,5 +1,5 @@
 Summary:	Multicasdt Session Directory Tool
-Summary(pl):	Narzêdzie dostêpu do sesji multicast'owych
+Summary(pl):	Narzêdzie dostêpu do sesji multicastowych
 Name:		sdr
 Version:	3.0
 Release:	1
@@ -22,7 +22,8 @@ BuildRequires:	tcl-devel >= 8.3
 BuildRequires:	tk-devel >= 8.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix	/usr/X11R6
+%define		_prefix		/usr/X11R6
+%define		debugcflags	-O1 -g
 
 %description
 SDR is a session directory tool designed to allow the advertisement
@@ -34,8 +35,8 @@ Handley who now works for ISI.
 
 %description -l pl
 SDR jest narzêdziem pozwalaj±cym na og³aszanie i do³±czanie siê do
-konferencji multicast'owych w MBone. SDR by³o wzorowane na SD
-napisanym przez Van Jacobson'a na LBNL, ale jest implementacj± nowszej
+konferencji multicastowych w MBone. SDR by³o wzorowane na SD
+napisanym przez Van Jacobsona na LBNL, ale jest implementacj± nowszej
 wersji protoko³u opisu sesji.
 
 %prep
@@ -50,7 +51,7 @@ wersji protoko³u opisu sesji.
 %build
 cd linux
 sh ./configure --enable-ipv6
-%{__make} OPTFLAGS="%{!?debug:%{rpmcflags}} %{?debug:-O1 -g}"
+%{__make} OPTFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
