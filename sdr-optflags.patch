@@ -1,0 +1,9 @@
+diff -durN sdr.orig/linux/Makefile.linux sdr/linux/Makefile.linux
+--- sdr.orig/linux/Makefile.linux	Sat Jun 16 18:01:25 2001
++++ sdr/linux/Makefile.linux	Sat Jun 16 18:01:55 2001
+@@ -1,4 +1,4 @@
+-CC          = gcc -g -O
++CC          = gcc $(OPTFLAGS)
+ INCLUDES    = -I/usr/include/ucl
+ LIBS        = -ltk8.3 -ltcl8.3 -luclmmbase -L/usr/X11R6/lib -lX11 -lc -lm -ldl -lresolv
+ CFLAGS = $(INCLUDES) -Wall -DNORANDPROTO -DDIFF_BYTE_ORDER -DAUTH -DLinux $(IFLAGS)
