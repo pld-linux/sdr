@@ -16,8 +16,9 @@ Patch1:		%{name}-tcl_eval.patch
 Patch2:		%{name}-FHS.patch
 Patch3:		%{name}-optflags.patch
 Patch4:		%{name}-ipv6_fix.patch
+Patch5:		%{name}-invite_fix.patch
 Icon:		sdr.xpm
-URL:		http://www-mice.cs.ucl.ac.uk/multimedia/software/
+URL:		http://www-mice.cs.ucl.ac.uk/multimedia/software/sdr/
 BuildRequires:	ucl-common-devel
 BuildRequires:	tcl-devel >= 8.3
 BuildRequires:	tk-devel >= 8.3
@@ -46,6 +47,7 @@ wersji protoko³u opisu sesji.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 cd linux
