@@ -3,9 +3,10 @@ Summary(pl):	Narzêdzie dostêpu do sesji multicastowych
 Name:		sdr
 Version:	3.0
 Release:	1
-License:	custom
+License:	custom, distributable
 Group:		X11/Applications/Multimedia
 Source0:	http://www-mice.cs.ucl.ac.uk/multimedia/software/%{name}/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	df7df7911b5c08df968296f970f9e31d
 Source1:	%{name}-COPYRIGHT
 Source2:	%{name}.desktop
 Source3:	%{name}.xpm
