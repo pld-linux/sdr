@@ -5,8 +5,6 @@ Version:	3.0
 Release:	1
 License:	Custom
 Group:		X11/Applications/Multimedia
-Group(de):	X11/Applikationen/Multimedia
-Group(pl):	X11/Aplikacje/Multimedia
 Source0:	http://www-mice.cs.ucl.ac.uk/multimedia/software/%{name}/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}-COPYRIGHT
 Source2:	%{name}.desktop
