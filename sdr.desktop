@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=SDR
+Comment=Session Directory Tool
+Exec=sdr
+Terminal=0
+Type=Application
+Icon=sdr.xpm
