@@ -1,0 +1,59 @@
+diff -durN sdr.orig/src/sdr.tcl sdr/src/sdr.tcl
+--- sdr.orig/src/sdr.tcl	Mon Sep  4 18:30:39 2000
++++ sdr/src/sdr.tcl	Wed Jun 13 09:38:42 2001
+@@ -4457,20 +4457,18 @@
+ 
+ # find where we are installed
+ set app_name $argv0
+-while {[file type $app_name] == "link"} {
+-    # don't worry about recursion since we know app must exist.
+-    set app_name [file readlink $app_name]
+-}
+-set app_home [file dirname $app_name]
++#while {[file type $app_name] == "link"} {
++#    # don't worry about recursion since we know app must exist.
++#    set app_name [file readlink $app_name]
++#}
++#set app_home [file dirname $app_name]
++set app_home /usr/bin
+ 
+ # Specify plugin dirs.  First of these are possible places 
+ # about where sdr is installed.
+ #
+ set plugin_dirs [list \
+-	$app_home/sdr/plugins \
+-	$app_home/plugins \
+-	$app_home/../plugins \
+-	/usr/local/etc/sdr/plugins \
++	/usr/share/sdr/plugins \
+ 	[resource sdrHome]/plugins \
+ ]
+ 
+@@ -4538,20 +4536,18 @@
+ 
+ # find where we are installed
+ set app_name $argv0
+-while {[file type $app_name] == "link"} {
+-    # don't worry about recursion since we know app must exist.
+-    set app_name [file readlink $app_name]
+-}
+-set app_home [file dirname $app_name]
++#while {[file type $app_name] == "link"} {
++#    # don't worry about recursion since we know app must exist.
++#    set app_name [file readlink $app_name]
++#}
++#set app_home [file dirname $app_name]
++set app_home /usr/bin
+ 
+ # Specify plugin dirs.  First of these are possible places 
+ # about where sdr is installed.
+ #
+ set plugin_dirs [list \
+-	$app_home/sdr/plugins \
+-	$app_home/plugins \
+-	$app_home/../plugins \
+-	/usr/local/etc/sdr/plugins \
++	/usr/share/sdr/plugins \
+ 	[resource sdrHome]/plugins \
+ ]
+ 

@@ -1,0 +1,24 @@
+diff -durN sdr.orig/linux/Makefile.linux sdr/linux/Makefile.linux
+--- sdr.orig/linux/Makefile.linux	Mon Sep  4 18:30:29 2000
++++ sdr/linux/Makefile.linux	Tue Jun 12 20:03:02 2001
+@@ -1,6 +1,6 @@
+ CC          = gcc -g -O
+-INCLUDES    = -I../../tk-8.0/generic -I../../tcl-8.0/generic -I../../common
+-LIBS        = ../../tk-8.0/unix/libtk8.0.a ../../tcl-8.0/unix/libtcl8.0.a ../../common/libuclmmbase.a -L/usr/X11R6/lib -lX11 -lc -lm -ldl -lresolv
++INCLUDES    = -I/usr/include/ucl
++LIBS        = -ltk8.3 -ltcl8.3 -luclmmbase -L/usr/X11R6/lib -lX11 -lc -lm -ldl -lresolv
+ CFLAGS = $(INCLUDES) -Wall -DNORANDPROTO -DDIFF_BYTE_ORDER -DAUTH -DLinux $(IFLAGS)
+ 
+ all::	sdr
+diff -durN sdr.orig/src/Makefile.template sdr/src/Makefile.template
+--- sdr.orig/src/Makefile.template	Mon Sep  4 18:30:31 2000
++++ sdr/src/Makefile.template	Tue Jun 12 20:00:27 2001
+@@ -88,7 +88,7 @@
+ $(SDR_UI_FILES): tcl2c
+ 
+ parsed_plugins.tcl: ../src/plugin2tcl.tcl
+-	tclsh8.0 ../src/plugin2tcl.tcl
++	tclsh ../src/plugin2tcl.tcl
+ 
+ uweb: $(WWWOBJS)
+ 	$(CC) -ggdb -o uweb $(WWWOBJS) $(LIBS)

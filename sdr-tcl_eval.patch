@@ -1,0 +1,18 @@
+From Tcl_Eval manual, about the second argument:
+This  script must be in writable memory: temporary modifications are
+made to it during parsing.
+
+diff -durN sdr.orig/src/ui_fns.c sdr/src/ui_fns.c
+--- sdr.orig/src/ui_fns.c	Mon Sep  4 18:30:43 2000
++++ sdr/src/ui_fns.c	Tue Jun 12 20:36:02 2001
+@@ -273,8 +273,9 @@
+   int i;
+   u_int base;
+   char buf[128];
++  char script[]="clock format [clock seconds] -format %w";
+ 
+-  Tcl_Eval(interp, "clock format [clock seconds] -format %w");
++  Tcl_Eval(interp, script);
+   base = atoi(interp->result);
+   for(i=0;i<7;i++)
+     {
