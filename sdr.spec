@@ -22,7 +22,6 @@ BuildRequires:	tcl-devel >= 8.3
 BuildRequires:	tk-devel >= 8.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
 %define		debugcflags	-O1 -g
 
 %description
