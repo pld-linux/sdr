@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=SDR
 Comment=Session Directory Tool
+Comment[pl]=Narzędzie dostępu do sesji multicastowych
 Exec=sdr
 Terminal=0
 Type=Application
