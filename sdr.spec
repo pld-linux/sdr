@@ -3,6 +3,7 @@ Summary(pl):	Narzêdzie dostêpu do sesji multicast'owych
 Name:		sdr
 Version:	3.0
 Release:	1
+License:	Custom
 Group:		X11/Applications/Multimedia
 Group(de):	X11/Applikationen/Multimedia
 Group(pl):	X11/Aplikacje/Multimedia
@@ -17,7 +18,6 @@ Patch3:		%{name}-optflags.patch
 Patch4:		%{name}-ipv6_fix.patch
 Icon:		sdr.xpm
 URL:		http://www-mice.cs.ucl.ac.uk/multimedia/software/
-License:	Custom
 BuildRequires:	ucl-common-devel
 BuildRequires:	tcl-devel >= 8.3
 BuildRequires:	tk-devel >= 8.3
