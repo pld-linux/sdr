@@ -1,0 +1,259 @@
+
+This patch makes SDR work even when current hostname doesn't resolve to 
+proper IPv6 address.
+Additionally it adds support for "-hostname" command line option for
+setting other hostname to be used as source address.
+
+
+diff -durN sdr.orig/src/polluted.c sdr/src/polluted.c
+--- sdr.orig/src/polluted.c	Mon Sep  4 18:30:38 2000
++++ sdr/src/polluted.c	Sun Jun 17 12:13:22 2001
+@@ -388,9 +388,11 @@
+  */
+   if (strncmp("ff", argv[3], 2) == 0){
+ #ifdef HAVE_IPv6
+-      inet_ntop(AF_INET6, &hostaddr_v6, source, INET6_ADDRSTRLEN);
+-      addr_fam = IPv6;
+-      addr_len = IPV6_ADDR_LEN;
++      if (use_ipv6){
++	      inet_ntop(AF_INET6, &hostaddr_v6, source, INET6_ADDRSTRLEN);
++	      addr_fam = IPv6;
++	      addr_len = IPV6_ADDR_LEN;
++      }
+ #endif
+   } else {
+       in.s_addr=htonl(hostaddr);
+@@ -1089,8 +1091,10 @@
+   sscanf(&data[2], "%s", origsrc);
+   if (strstr(origsrc,".") == NULL) {/* Checking for an IPv6 address */
+ #ifdef HAVE_IPv6
+-      sap_hdr_len = SAPV6_HDR_LEN;
+-	  addr_fam=IPv6;
++      if (use_ipv6){	  
++      	sap_hdr_len = SAPV6_HDR_LEN;
++	addr_fam=IPv6;
++      }
+ #endif
+   }
+ 
+@@ -1291,8 +1295,10 @@
+   sscanf(&data[2], "%s", origsrc);
+   if (strstr(origsrc,".") == NULL) {/* Checking for an IPv6 address */
+ #ifdef HAVE_IPv6
+-      sap_hdr_len = SAPV6_HDR_LEN;
+-	  addr_fam=IPv6;
++      if (use_ipv6){	  
++      	sap_hdr_len = SAPV6_HDR_LEN;
++	addr_fam=IPv6;
++      }
+ #endif
+   }
+ 
+diff -durN sdr.orig/src/sap_crypt.c sdr/src/sap_crypt.c
+--- sdr.orig/src/sap_crypt.c	Mon Sep  4 18:30:38 2000
++++ sdr/src/sap_crypt.c	Sun Jun 17 12:13:22 2001
+@@ -482,8 +482,10 @@
+ 	  sscanf(&data[2], "%s", origsrc);
+   if (strstr(origsrc,".") == NULL) {/* Checking for an IPv6 address */
+ #ifdef HAVE_IPv6
+-      sap_hdr_len = SAPV6_HDR_LEN;
+-	  addr_fam=IPv6;
++      if (use_ipv6){	  
++      	sap_hdr_len = SAPV6_HDR_LEN;
++	addr_fam=IPv6;
++      }
+ #endif
+   }
+ 
+diff -durN sdr.orig/src/sd_listen.c sdr/src/sd_listen.c
+--- sdr.orig/src/sd_listen.c	Mon Sep  4 18:30:39 2000
++++ sdr/src/sd_listen.c	Sun Jun 17 12:08:04 2001
+@@ -124,6 +124,7 @@
+ unsigned long hostaddr;
+ #if HAVE_IPv6
+ struct in6_addr hostaddr_v6;
++int use_ipv6=1;
+ #endif
+ char hostname[TMPSTRLEN];
+ char username[TMPSTRLEN];
+@@ -143,6 +144,7 @@
+ int debug1=TRUE;
+ jmp_buf env;
+ unsigned initializationHasFinished = 0;
++char *given_hostname=NULL;
+ 
+ void dump(buf, buflen)
+ char *buf;
+@@ -1363,13 +1365,54 @@
+     setlocale(LC_NUMERIC, "C");
+     putenv("LC_NUMERIC=C");
+ 
++    doexit=TRUE;
++    debug1=FALSE;
++    logging=FALSE;
++    gui=GUI;
++    cli=FALSE;
++    for(i=1;i<argc;i++)
++      {
++        if (debug1==TRUE) fprintf(stderr, "argv[i]: %s\n",argv[i]);
++	if(strncmp(argv[i], "-s", 3)==0)
++	   {
++	     doexit=FALSE;
++	   }
++	if(strncmp(argv[i], "-d1", 3)==0)
++	   {
++	     debug1=TRUE;
++	   }
++	if(strncmp(argv[i], "-no_gui", 7)==0)
++	   {
++	     gui=NO_GUI;
++	     doexit=FALSE;
++	   }
++	if(strncmp(argv[i], "-cli", 7)==0)                      
++           {                                                    
++             cli=TRUE;
++           }   
++	if(strncmp(argv[i], "-log", 7)==0)
++	   {
++	     logging=TRUE;
++	   }
++	if(strcmp(argv[i], "-hostname")==0)
++	   {
++		given_hostname=argv[++i];
++        	if (debug1==TRUE) fprintf(stderr, "Give hostname: %s\n",given_hostname);
++	   }
++      }
++
+ /*  find our own address  */
+ 
+-    gethostname(hostname, TMPSTRLEN);
+-    if (hostname[0] == '\0') {
+-      fprintf(stderr, "gethostname failed!\n");
+-      exit(1);
++    if (given_hostname!=NULL)
++	strncpy(hostname,given_hostname,TMPSTRLEN-1);
++    else{
++    	gethostname(hostname, TMPSTRLEN);
++    	if (hostname[0] == '\0') {
++      		fprintf(stderr, "gethostname failed!\n");
++      		exit(1);
++    	}
+     }
++    if (debug1==TRUE) fprintf(stderr, "Hostname: %s\n",hostname);
+     writelog(printf("0. >%s<\n", hostname));
+     hstent=(struct hostent*)gethostbyname(hostname);
+     if (hstent == (struct hostent*) NULL) {
+@@ -1393,13 +1436,13 @@
+         freeaddrinfo(result);
+     } else {
+ #ifdef WIN32            
+-        printf("SDR: getaddrinfo failed, couldn't resolve '%s'!\n",
++        printf("SDR: getaddrinfo failed, couldn't resolve '%s' as IPv6 address!\n",
+                hostname);
+ #else
+-        fprintf(stderr, "SDR: getaddrinfo failed, couldn't resolve '%s'!\n", 
++        fprintf(stderr, "SDR: getaddrinfo failed, couldn't resolve '%s' as IPv6 address!\n", 
+                 hostname);
+ #endif
+-        exit(1);
++        use_ipv6=0;
+     }
+ #endif
+     
+@@ -1492,6 +1535,7 @@
+       strcpy(hostname,(char *)inet_ntoa(in));
+ 
+     writelog(printf("4. >%s<\n", hostname));
++    if (debug1==TRUE) fprintf(stderr, "Hostname(final): %s\n",hostname);
+ 
+     hostaddr=ntohl(hostaddr);
+     
+@@ -1512,37 +1556,6 @@
+ #endif
+     strncpy(sipalias, username, MAXALIAS);
+ 
+-    doexit=TRUE;
+-    debug1=FALSE;
+-    logging=FALSE;
+-    gui=GUI;
+-    cli=FALSE;
+-    for(i=1;i<argc;i++)
+-      {
+-	if(strncmp(argv[i], "-s", 3)==0)
+-	   {
+-	     doexit=FALSE;
+-	   }
+-	if(strncmp(argv[i], "-d1", 3)==0)
+-	   {
+-	     debug1=TRUE;
+-	   }
+-	if(strncmp(argv[i], "-no_gui", 7)==0)
+-	   {
+-	     gui=NO_GUI;
+-	     doexit=FALSE;
+-	   }
+-	if(strncmp(argv[i], "-cli", 7)==0)                      
+-           {                                                    
+-             cli=TRUE;
+-           }   
+-	if(strncmp(argv[i], "-log", 7)==0)
+-	   {
+-	     logging=TRUE;
+-	   }
+-      }
+-
+-
+     setlocale(LC_ALL, "");
+     ui_init(&argc, argv);
+     initnames();
+@@ -1577,9 +1590,13 @@
+ /*Set up Tx Socket*/
+     sd_tx(SAP_GROUP, SAP_PORT, txsock, &no_of_tx_socks);
+ 
++    if (debug1==TRUE)
++       		fprintf(stderr, "use_ipv6: %i\n",use_ipv6);
+ #ifdef HAVE_IPv6
+-    sd_listen(SAPv6_GROUP, SAP_PORT, IPv6, rxsock, &no_of_rx_socks, 1);
+-    sd_tx_ipv6(SAPv6_GROUP, SAP_PORT, txsock, &no_of_tx_socks);
++    if (use_ipv6==1){
++    	sd_listen(SAPv6_GROUP, SAP_PORT, IPv6, rxsock, &no_of_rx_socks, 1);
++    	sd_tx_ipv6(SAPv6_GROUP, SAP_PORT, txsock, &no_of_tx_socks);
++    }
+ #endif
+     init_bitmaps();
+     ui_create_interface();
+@@ -1676,7 +1693,7 @@
+ 
+ int verify_ipv6_stack() 
+ {
+-    return 1;
++    return use_ipv6;
+ }
+ 
+ int xremove_interface(Display *pdisp)
+diff -durN sdr.orig/src/sdr.h sdr/src/sdr.h
+--- sdr.orig/src/sdr.h	Mon Sep  4 18:30:39 2000
++++ sdr/src/sdr.h	Sun Jun 17 12:13:22 2001
+@@ -363,6 +363,10 @@
+   hash_t  hash;
+ };
+ 
++#if HAVE_IPv6
++extern int use_ipv6;
++#endif
++
+ #ifdef WIN32
+ /* get rid of some Microsoft brain-damage */
+ #ifdef interface
+diff -durN sdr.orig/src/ui_fns.c sdr/src/ui_fns.c
+--- sdr.orig/src/ui_fns.c	Sun Jun 17 11:14:56 2001
++++ sdr/src/ui_fns.c	Sun Jun 17 12:11:36 2001
+@@ -101,7 +101,7 @@
+ {
+ 
+ #if defined(HAVE_IPv6)
+-        sprintf(interp->result, "%d", 1);
++        sprintf(interp->result, "%d", use_ipv6);
+ #else 
+         sprintf(interp->result, "%d", 0);
+ #endif
