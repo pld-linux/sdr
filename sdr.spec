@@ -1,4 +1,5 @@
-Summary:	Session Directory Tool
+Summary:	Multicasdt Session Directory Tool
+Summary(pl):	Narzêdzie dostêpu do sesji multicast'owych
 Name:		sdr
 Version:	3.0
 Release:	1
@@ -12,7 +13,9 @@ Source3:	%{name}.xpm
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-tcl_eval.patch
 Patch2:		%{name}-FHS.patch
-Icon:		%{name}.xpm
+Patch3:		%{name}-optflags.patch
+Patch4:		%{name}-ipv6_fix.patch
+Icon:		sdr.xpm
 URL:		http://www-mice.cs.ucl.ac.uk/multimedia/software/
 License:	Custom
 BuildRequires:	ucl-common-devel
@@ -30,16 +33,23 @@ version of the session description protocol than sd does. SDR was
 originally written under the MICE and MERCI projects at UCL by Mark
 Handley who now works for ISI.
 
+%description -l pl
+SDR jest narzêdziem pozwalaj±cym na og³aszanie i do³±czanie siê do konferencji
+multicast'owych w MBone. SDR by³o wzorowane na SD napisanym przez Van Jacobson'a 
+na LBNL, ale jest implementacj± nowszej wersji protoko³u opisu sesji. 
+
 %prep
 %setup -qn %{name}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 cd linux
 sh ./configure --enable-ipv6
-%{__make}
+%{__make} OPTFLAGS="%{!?debug:%{rpmcflags}} %{?debug:-O1 -g}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
