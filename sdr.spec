@@ -26,17 +26,6 @@ version of the session description protocol than sd does. SDR was
 originally written under the MICE and MERCI projects at UCL by Mark
 Handley who now works for ISI.
 
-%package devel
-Summary:	Development part of UCL Common Code Library
-Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Requires:	%{name} = %{version}
-
-%description devel
-Development part of UCL Common Code Library.
-
 %prep
 %setup -qn sdr
 %patch0 -p1
