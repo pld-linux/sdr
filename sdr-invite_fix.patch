@@ -1,0 +1,37 @@
+--- sdr/src/sip.tcl.orig	Mon Sep  4 18:30:40 2000
++++ sdr/src/sip.tcl	Mon Jun 18 11:54:27 2001
+@@ -1229,7 +1229,6 @@
+     set smode [lindex $msg 1]
+     set reason [lindex $msg 2]
+ 
+-	debug2 $msg
+     debug "sip_status: $smode"
+     set lines [split $msg "\n"]
+     set path ""
+@@ -1715,7 +1714,7 @@
+     }
+ }
+ 
+-proc enter_new_address {menu entry} {
++proc enter_new_address {menu entry button} {
+     global address_book ab
+     catch {destroy .ab}
+     sdr_toplevel .ab "Address Book"
+@@ -1782,7 +1781,7 @@
+ 
+     frame .ab.f.f3
+     pack .ab.f.f3 -side top -fill x -expand true
+-    button .ab.f.f3.ok -text "Store Entry" -command "add_address_entry $menu $entry"
++    button .ab.f.f3.ok -text "Store Entry" -command "add_address_entry $menu $entry $button"
+     pack  .ab.f.f3.ok -side left -fill x -expand true
+     button .ab.f.f3.cancel -text "Cancel" -command "destroy .ab"
+     pack  .ab.f.f3.cancel -side left -fill x -expand true
+@@ -1957,7 +1956,7 @@
+ 	}
+ 	$menu add separator
+ 	$menu add command -label "Add new entry" -command \
+-		"enter_new_address $menu $entry"
++		"enter_new_address $menu $entry $button"
+     }
+ }
+ 
