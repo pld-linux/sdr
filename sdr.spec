@@ -61,8 +61,6 @@ install %{SOURCE1} COPYRIGHT
 install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-gzip -9nf src/{sdr.README,BUGS,CHANGES} COPYRIGHT
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
