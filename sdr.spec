@@ -34,9 +34,10 @@ originally written under the MICE and MERCI projects at UCL by Mark
 Handley who now works for ISI.
 
 %description -l pl
-SDR jest narzêdziem pozwalaj±cym na og³aszanie i do³±czanie siê do konferencji
-multicast'owych w MBone. SDR by³o wzorowane na SD napisanym przez Van Jacobson'a 
-na LBNL, ale jest implementacj± nowszej wersji protoko³u opisu sesji. 
+SDR jest narzêdziem pozwalaj±cym na og³aszanie i do³±czanie siê do
+konferencji multicast'owych w MBone. SDR by³o wzorowane na SD
+napisanym przez Van Jacobson'a na LBNL, ale jest implementacj± nowszej
+wersji protoko³u opisu sesji.
 
 %prep
 %setup -qn %{name}
@@ -54,6 +55,7 @@ sh ./configure --enable-ipv6
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/sdr/plugins,%{_applnkdir}/Multimedia,%{_pixmapsdir}}
+
 install linux/sdr $RPM_BUILD_ROOT%{_bindir}
 install %{SOURCE1} COPYRIGHT
 install %{SOURCE2} $RPM_BUILD_ROOT%{_applnkdir}/Multimedia
@@ -70,4 +72,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_applnkdir}/Multimedia/*
 %{_pixmapsdir}/*
-/etc/sdr
+%{_sysconfdir}/sdr
