@@ -25,7 +25,7 @@ diff -durN sdr.orig/src/sdr.tcl sdr/src/sdr.tcl
 -	$app_home/plugins \
 -	$app_home/../plugins \
 -	/usr/local/etc/sdr/plugins \
-+	/usr/share/sdr/plugins \
++	/etc/sdr/plugins \
  	[resource sdrHome]/plugins \
  ]
  
@@ -53,7 +53,7 @@ diff -durN sdr.orig/src/sdr.tcl sdr/src/sdr.tcl
 -	$app_home/plugins \
 -	$app_home/../plugins \
 -	/usr/local/etc/sdr/plugins \
-+	/usr/share/sdr/plugins \
++	/etc/sdr/plugins \
  	[resource sdrHome]/plugins \
  ]
  
