@@ -8,6 +8,7 @@ Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	http://www-mice.cs.ucl.ac.uk/multimedia/software/%{name}/%{version}/%{name}-%{version}.tar.gz
+Source1:	%{name}-COPYRIGHT
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-tcl_eval.patch
 Patch2:		%{name}-FHS.patch
@@ -27,7 +28,7 @@ originally written under the MICE and MERCI projects at UCL by Mark
 Handley who now works for ISI.
 
 %prep
-%setup -qn sdr
+%setup -qn %{name}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -42,14 +43,15 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_datadir}/sdr/plugins/built-in}
 install linux/sdr $RPM_BUILD_ROOT%{_bindir}
 install src/plugins/* $RPM_BUILD_ROOT%{_datadir}/sdr/plugins/built-in
+install %{SOURCE1} COPYRIGHT
 
-gzip -9nf src/{sdr.README,BUGS,CHANGES}
+gzip -9nf src/{sdr.README,BUGS,CHANGES} COPYRIGHT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc src/sdr.README* src/BUGS* src/CHANGES*
+%doc src/sdr.README* src/BUGS* src/CHANGES* COPYRIGHT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/sdr
