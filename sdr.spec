@@ -16,7 +16,6 @@ Patch2:		%{name}-FHS.patch
 Patch3:		%{name}-optflags.patch
 Patch4:		%{name}-ipv6_fix.patch
 Patch5:		%{name}-invite_fix.patch
-Icon:		sdr.xpm
 URL:		http://www-mice.cs.ucl.ac.uk/multimedia/software/sdr/
 BuildRequires:	ucl-common-devel
 BuildRequires:	tcl-devel >= 8.3
