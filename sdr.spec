@@ -1,5 +1,5 @@
 Summary:	Multicasdt Session Directory Tool
-Summary(pl):	Narzêdzie dostêpu do sesji multicastowych
+Summary(pl.UTF-8):   NarzÄ™dzie dostÄ™pu do sesji multicastowych
 Name:		sdr
 Version:	3.0
 Release:	1
@@ -32,11 +32,11 @@ version of the session description protocol than sd does. SDR was
 originally written under the MICE and MERCI projects at UCL by Mark
 Handley who now works for ISI.
 
-%description -l pl
-SDR jest narzêdziem pozwalaj±cym na og³aszanie i do³±czanie siê do
-konferencji multicastowych w MBone. SDR by³o wzorowane na SD
-napisanym przez Van Jacobsona na LBNL, ale jest implementacj± nowszej
-wersji protoko³u opisu sesji.
+%description -l pl.UTF-8
+SDR jest narzÄ™dziem pozwalajÄ…cym na ogÅ‚aszanie i doÅ‚Ä…czanie siÄ™ do
+konferencji multicastowych w MBone. SDR byÅ‚o wzorowane na SD
+napisanym przez Van Jacobsona na LBNL, ale jest implementacjÄ… nowszej
+wersji protokoÅ‚u opisu sesji.
 
 %prep
 %setup -qn %{name}
