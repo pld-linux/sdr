@@ -1,5 +1,5 @@
 Summary:	Multicasdt Session Directory Tool
-Summary(pl.UTF-8):   Narzędzie dostępu do sesji multicastowych
+Summary(pl.UTF-8):	Narzędzie dostępu do sesji multicastowych
 Name:		sdr
 Version:	3.0
 Release:	1
